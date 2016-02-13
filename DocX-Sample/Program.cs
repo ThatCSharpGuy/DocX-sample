@@ -16,6 +16,12 @@ namespace DocX_Sample
 
             using (var document = DocX.Create("Prueba.docx"))
             {
+
+                var reportText = document.InsertParagraph();
+                reportText.Append("Este es un reporte perteneciente a las clases que imparte " + teacher.GivenName + " " +
+                                    teacher.LastName + ", generado en " + DateTime.Now.ToShortDateString() + ". ")
+                            .Append("El profesor/ra " + teacher.LastName + " imparte actualmente " + lectures.Length + " asignaturas.");
+
                 document.Save();
             }
         }

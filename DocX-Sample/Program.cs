@@ -1,16 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Novacode;
 
 namespace DocX_Sample
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static FakeDatabase _database = new FakeDatabase();
+
+
+        private static void Main(string[] args)
         {
+            var teacher = GetMostActiveTeacher();
+            var lectures = GetLecturesForTeacher(teacher.Id);
+
+            using (var document = DocX.Create("Prueba.docx"))
+            {
+                document.Save();
+            }
+        }
+
+        static Teacher GetMostActiveTeacher()
+        {
+            var mostActiveTeacherId = (from lecture in _database.Lectures
+                                       group lecture by lecture.TeacherId into group1
+                                       orderby group1.Count() descending
+                                       select group1.Key).FirstOrDefault();
+
+            return _database.Teachers.Single(t => t.Id == mostActiveTeacherId);
+        }
+
+        static Lecture[] GetLecturesForTeacher(int teacherId)
+        {
+            return _database.Lectures.Where(lecture => lecture.TeacherId == teacherId).ToArray();
         }
     }
 }

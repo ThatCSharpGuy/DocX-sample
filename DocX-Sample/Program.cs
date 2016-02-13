@@ -30,10 +30,37 @@ namespace DocX_Sample
 
 				document.AddHeaders ();
 				document.AddFooters ();
+
 				var header = document.Headers.odd.InsertParagraph ();
 				header.Append ("Reporte - That C# Guy").Font(new FontFamily("Courier New"));
 
-				var footer = document.Footers.odd.PageNumbers = true;
+				document.Footers.odd.PageNumbers = true;
+
+				var table = document.InsertTable (1, 3);
+
+				table.AutoFit = AutoFit.Window;
+				var border = new Border (BorderStyle.Tcbs_single, BorderSize.one, 0, Color.Black);
+				table.SetBorder (TableBorderType.InsideH, border);
+				table.SetBorder (TableBorderType.InsideV, border);
+				table.SetBorder (TableBorderType.Top, border);
+				table.SetBorder (TableBorderType.Right, border);
+				table.SetBorder (TableBorderType.Bottom, border);
+				table.SetBorder (TableBorderType.Left, border);
+
+				table.Design = TableDesign.ColorfulGrid;
+
+				var tableHeaders = table.Rows[0];
+				tableHeaders.Cells[0].InsertParagraph().Append("ID").Bold();
+				tableHeaders.Cells[1].InsertParagraph().Append("Clase").Bold();
+				tableHeaders.Cells[2].InsertParagraph().Append("Nivel").Bold();
+
+				foreach (var lecture in lectures) 
+				{
+					var tableRow = table.InsertRow();
+					tableRow.Cells[0].InsertParagraph().Append (lecture.Id.ToString());
+					tableRow.Cells[1].InsertParagraph().Append(lecture.Name);
+					tableRow.Cells[2].InsertParagraph().Append(lecture.Level);
+				}
 
                 document.Save();
             }

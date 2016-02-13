@@ -64,6 +64,17 @@ namespace DocX_Sample
 
                 document.Save();
             }
+
+
+			using (var template = DocX.Load ("template.docx")) 
+			{
+				template.ReplaceText("esta entrada", "este post sobre DocX");
+				template.ReplaceText("querido", "querido y respetable");
+				template.ReplaceText("Facebook", "Twitter");
+				template.ReplaceText("correo electrónico", "feregrino@thatcsharpguy.com");
+
+				template.SaveAs("out.docx");
+			}
         }
 
         static Teacher GetMostActiveTeacher()

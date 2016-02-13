@@ -17,7 +17,7 @@ namespace DocX_Sample
 
             using (var document = DocX.Create("Prueba.docx"))
             {
-				var titleParagraph = document.InsertParagraph ();
+				var titleParagraph = document.InsertParagraph();
 				titleParagraph.Append("Reporte " + teacher.LastName).Heading(HeadingType.Heading1);
 
 				var reportParagraph = document.InsertParagraph();
@@ -27,6 +27,13 @@ namespace DocX_Sample
 					.Append ("El profesor/ra ").Append(teacher.LastName).Font(new FontFamily("Arial Black"))
 					.Append(" imparte actualmente ")
 					.Append(lectures.Length + " asignaturas.").Color(Color.Blue).Italic().Bold();
+
+				document.AddHeaders ();
+				document.AddFooters ();
+				var header = document.Headers.odd.InsertParagraph ();
+				header.Append ("Reporte - That C# Guy").Font(new FontFamily("Courier New"));
+
+				var footer = document.Footers.odd.PageNumbers = true;
 
                 document.Save();
             }

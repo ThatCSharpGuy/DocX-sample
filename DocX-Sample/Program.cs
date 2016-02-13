@@ -17,6 +17,8 @@ namespace DocX_Sample
 
             using (var document = DocX.Create("Prueba.docx"))
             {
+				var titleParagraph = document.InsertParagraph ();
+				titleParagraph.Append("Reporte " + teacher.LastName).Heading(HeadingType.Heading1);
 
 				var reportParagraph = document.InsertParagraph();
 				reportParagraph.Append ("Este es un reporte perteneciente a las clases que imparte ");

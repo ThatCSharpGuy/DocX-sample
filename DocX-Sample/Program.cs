@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using Novacode;
 
@@ -17,10 +18,13 @@ namespace DocX_Sample
             using (var document = DocX.Create("Prueba.docx"))
             {
 
-                var reportText = document.InsertParagraph();
-                reportText.Append("Este es un reporte perteneciente a las clases que imparte " + teacher.GivenName + " " +
-                                    teacher.LastName + ", generado en " + DateTime.Now.ToShortDateString() + ". ")
-                            .Append("El profesor/ra " + teacher.LastName + " imparte actualmente " + lectures.Length + " asignaturas.");
+				var reportParagraph = document.InsertParagraph();
+				reportParagraph.Append ("Este es un reporte perteneciente a las clases que imparte ");
+				reportParagraph.Append (teacher.GivenName + " " + teacher.LastName).Bold().Append(", generado en ");
+				reportParagraph.Append (DateTime.Now.ToShortDateString ()).Italic().Append (". ")
+					.Append ("El profesor/ra ").Append(teacher.LastName).Font(new FontFamily("Arial Black"))
+					.Append(" imparte actualmente ")
+					.Append(lectures.Length + " asignaturas.").Color(Color.Blue).Italic().Bold();
 
                 document.Save();
             }
